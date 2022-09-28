@@ -1,11 +1,17 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser, PermissionsMixin
 
+design_choice = (
+    ('',''),
+    ('manager','Manager'),
+    ('team lead','Team Lead'),
+    ('developer','Developer')
+)
 
-class new_user(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, default=False)
-    designation = models.CharField(max_length=30, default=False)
-    profile = models.FileField(default=False)
+class new_user(AbstractUser):
+    designation = models.CharField(max_length=30,choices=design_choice, default=False)
+    profile = models.ImageField(default=False,upload_to='avatars')
+ 
 
 
 # ========== class-to-generate-task-table ==========
