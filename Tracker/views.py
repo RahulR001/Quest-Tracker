@@ -11,7 +11,42 @@ def home(request):
     return render(request, 'home.html')
 
 
- 
+@login_required(login_url='login')
+def task(request):
+    developers = new_user.objects.all()
+    if request.user.is_authenticated:
+        user = request.user
+        if Task.objects.filter(unique_user=user) and new_user.objects.filter(designation='manager') or new_user.objects.filter(designation='team lead'):
+            if request.method == 'POST':
+                form = TaskForm(request.POST)
+                if form.is_valid():
+                    task = form.save(commit=False)
+                    task.unique_user = request.user
+                    task.developer = request.POST.get('developer')
+                    task.save()
+                    return redirect('quest')
+            else:
+                form = TaskForm()
+        else:
+           return redirect('viewtask')
+    else:
+        form = TaskForm()
+    return render(request, 'quest.html',{'form':form,'dev':developers})
+
+
+def viewtask(request, id):
+    
+    return render(request, 'view_task.html' )
+     
+
+
+def updatetask(request,id):
+   
+    return render(request,  'view_task.html' )
+
+
+def deletetask(request):
+    return render(request, 'view_task.html')
 # ========== method-to-access-login-view ==========
 
 

@@ -29,6 +29,5 @@ class Task(models.Model):
     taskDesc = models.TextField(blank=True)
     developer = models.CharField(max_length=30, blank=True )
     status = models.CharField(max_length=30,choices=status_choice,default='Working on it')
-    created_time = models.TimeField(auto_now_add=True)
-    completed = models.BooleanField(default=False)
+    created_time = models.DateField(auto_now_add=True)
     deadline = models.DateField()
