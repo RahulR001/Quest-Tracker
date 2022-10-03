@@ -34,15 +34,33 @@ def task(request):
     return render(request, 'quest.html',{'form':form,'dev':developers})
 
 
-def viewtask(request, id):
-    
-    return render(request, 'view_task.html' )
+def viewtask(request):
+   
+    if request.user.is_authenticated:
+        user = request.user
+        if request.method == "POST":
+            stat = TaskForm(request.POST or None , instance=stat)
+            if stat.is_valid():
+                stat.save()
+            print("dfgb", stat)
+            print('gggg')
+        else:
+            
+            stat = TaskForm()
+        if user.designation == 'developer':
+            username = user.username
+            designation = 'developer'
+            if designation == user.designation:
+                designation = True
+            tasks = Task.objects.filter(developer=username)
+        else:
+            tasks = Task.objects.all()
+            designation = False
+    else:
+        return redirect('login')
+    return render(request, 'view_task.html', {'tasks': tasks, 'designation': designation})
      
 
-
-def updatetask(request,id):
-   
-    return render(request,  'view_task.html' )
 
 
 def deletetask(request):

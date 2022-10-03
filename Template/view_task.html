@@ -1,0 +1,53 @@
+{% extends "base.html" %} 
+{% block title%}quest{% endblock %}
+{% block questactive %}active{% endblock %}
+{% block content%}
+{% load widget_tweaks %}
+
+<div class="tab mt-4 my-2">
+    {% if not designation %}
+    <a class="button-33 mb-4" href="{% url 'quest' %}">Add Task</a>
+    <a class="button-33 mb-4">View Task</a>
+    {% else %}
+    <h1><label class=" my-4 txtcolor ">Tasks to be Completed</label></h1>
+    {% endif %}
+</div>
+<form method="POST">
+    {% csrf_token %}
+<div class="container scroll  px-5">
+    <table class="table1 table  table-striped table-dark ">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Task</th>
+                <th scope="col">Task Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Assigned Date</th>
+                <th scope="col">Deadline</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ task.tasktitle }}</td>
+                <td>{{ task.taskDesc }}</td>
+                <td>
+                {% render_field stat.status class="form-select" type="text" %}
+                </td>
+                <td>{{ task.created_time}}</td>
+                <td>{{ task.deadline}}</td>
+                <td><button type="submit" name="save" class="txtcolor btn btn-outline-primary">Update</button>
+                    <!-- <a class="txtcolor btn btn-outline-danger" href=" ">Delete</a> -->
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+    </form>
+</div>
+
+{% endblock %}
