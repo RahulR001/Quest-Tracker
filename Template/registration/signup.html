@@ -12,7 +12,7 @@
     </button>
 </div>
 {% endfor %} 
-
+<div class="container signupscroll  px-5">
 <form class="signup" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
 
@@ -80,9 +80,9 @@
             Already have an account &nbsp; <a class="btn-danger" href="{% url 'login' %}">Login </a>
         </label>
     </div>
-    <div class="container mt-4 text-center">
+    <div class="container mt-4 mb-4 text-center">
         <button type="submit" class="glow-on-hover">Sign up</button>
     </div>
 </form>
-
+</div>
 {% endblock %}

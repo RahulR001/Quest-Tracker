@@ -12,12 +12,17 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task 
         fields = ['tasktitle',  
-                  'taskDesc', 'developer','status', 'deadline']
+                  'taskDesc', 'developer','deadline']
         widgets ={
             'deadline':dateinput(),
             'taskDesc':forms.Textarea(attrs={'rows': 5, 'cols': 3}),
             
         }
+class UpdateForm(forms.ModelForm):
+    class Meta:
+        model = Task 
+        fields = ['status']
+       
 
 # ========== class-to-generate-user-from ==========
 

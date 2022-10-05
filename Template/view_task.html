@@ -5,7 +5,7 @@
 {% load widget_tweaks %}
 
 <div class="tab mt-4 my-2">
-    {% if not designation %}
+    {% if designation %}
     <a class="button-33 mb-4" href="{% url 'quest' %}">Add Task</a>
     <a class="button-33 mb-4">View Task</a>
     {% else %}
@@ -35,12 +35,14 @@
                 <td>{{ task.tasktitle }}</td>
                 <td>{{ task.taskDesc }}</td>
                 <td>
-                {% render_field stat.status class="form-select" type="text" %}
+            {{ task.status}}
                 </td>
                 <td>{{ task.created_time}}</td>
                 <td>{{ task.deadline}}</td>
-                <td><button type="submit" name="save" class="txtcolor btn btn-outline-primary">Update</button>
-                    <!-- <a class="txtcolor btn btn-outline-danger" href=" ">Delete</a> -->
+                <td><a class="txtcolor btn btn-outline-primary" href="/update/{{task.id}}">Update</a>
+                    {% if designation %}
+                    <a class="txtcolor btn btn-outline-danger" href="/delete/{{task.id}}">Delete</a>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

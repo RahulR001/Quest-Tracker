@@ -89,7 +89,7 @@
 .scroll {
     scroll-behavior: smooth;
     width: 100%;
-    height: 500px;
+    height: 476px;
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -103,9 +103,18 @@
 
 .signup {
     width: 651px;
-    margin-left: 30%;
+    margin-left: 25%;
 }
-
+.signupscroll {
+    scroll-behavior: smooth;
+    width: 100%;
+    height: 636px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.signupscroll::-webkit-scrollbar {
+    display: none;
+}
 .avatar {
     vertical-align: middle;
     width: 70px;
@@ -120,7 +129,7 @@
 }
 
 .upbtn {
-    position: fixed;
+    position: relative;
     border: 2px solid gray;
     color: #57ffc1;
     background-color: #202124;
@@ -128,25 +137,31 @@
     border-radius: 8px;
     font-size: 14px;
     font-weight: bold;
-    margin-left: 35px;
+    margin-left: 9px;
 }
 
 .upload-btn-wrapper input[type=file] {
-    margin-right: -137px;
+    margin-right: 223px;
     top: 0;
+    right: -94px;
+    position: absolute;
+
     opacity: 0;
+
 }
 
 /*========== Base-template ==========*/
-
-.main {
-    background-color: black;
-    width: 100%;
-    height: 100vh;
-    position: absolute;
+body {
+    background: url("../img/img.jpg");
+    background-size: cover;
     background-attachment: fixed;
+    scroll-behavior: smooth;
+    background-repeat: repeat-y;
     overflow: hidden;
+
 }
+
+ 
 
 .h2 {
     font-size: 43px;
@@ -178,7 +193,7 @@ a:hover {
     animation-duration: 1s
 }
 
-.moon {
+/* .moon {
     position: absolute;
     top: 100px;
     left: 400px;
@@ -208,7 +223,7 @@ a:hover {
     border-radius: 50%;
     animation: animate linear infinite;
     z-index: -13;
-}
+} */
 
 
 /*========== Universe-style ==========*/
@@ -253,8 +268,13 @@ strong {
     border-radius: 0.375rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
+.form-control:disabled {
+    background-color: #262626;
+    opacity: 0.9;
+}
 .form-select1 {
-        margin-right: -80px;
+    margin-right: -80px;
     display: block;
     width: auto;
     padding: 0.375rem 2.25rem 0.375rem 0.75rem;
@@ -264,7 +284,7 @@ strong {
     line-height: 1.5;
     color: #ffffff;
     background-color: #262626;
-     
+
     background-repeat: no-repeat;
     background-position: right 0.75rem center;
     background-size: 16px 12px;
@@ -275,8 +295,9 @@ strong {
     -moz-appearance: none;
     appearance: none;
 }
+
 .form-select {
-       
+
     display: block;
     width: 100%;
     padding: 0.375rem 2.25rem 0.375rem 0.75rem;
@@ -286,7 +307,7 @@ strong {
     line-height: 1.5;
     color: #ffffff;
     background-color: #262626;
-     
+
     background-repeat: no-repeat;
     background-position: right 0.75rem center;
     background-size: 16px 12px;
@@ -297,6 +318,7 @@ strong {
     -moz-appearance: none;
     appearance: none;
 }
+
 .form-label,
 .form-check-label {
     display: flex;
@@ -406,7 +428,7 @@ strong {
     opacity: 0.5;
 }
 
- 
+
 /*========== Animations ==========*/
 
 @keyframes animate {

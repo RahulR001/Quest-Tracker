@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import NewUser, TaskForm
+from .forms import NewUser, TaskForm, UpdateForm
 from .models import new_user, Task 
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as user_login, authenticate
@@ -16,7 +16,8 @@ def task(request):
     developers = new_user.objects.all()
     if request.user.is_authenticated:
         user = request.user
-        if Task.objects.filter(unique_user=user) and new_user.objects.filter(designation='manager') or new_user.objects.filter(designation='team lead'):
+        print(user.designation)
+        if user.designation == 'Manager' or user.designation == 'Team lead':
             if request.method == 'POST':
                 form = TaskForm(request.POST)
                 if form.is_valid():
@@ -28,43 +29,42 @@ def task(request):
             else:
                 form = TaskForm()
         else:
-           return redirect('viewtask')
+            return redirect('viewtask')
     else:
         form = TaskForm()
     return render(request, 'quest.html',{'form':form,'dev':developers})
 
 
+@login_required(login_url='login')
 def viewtask(request):
-   
     if request.user.is_authenticated:
         user = request.user
-        if request.method == "POST":
-            stat = TaskForm(request.POST or None , instance=stat)
-            if stat.is_valid():
-                stat.save()
-            print("dfgb", stat)
-            print('gggg')
-        else:
-            
-            stat = TaskForm()
-        if user.designation == 'developer':
+        if user.designation == 'Developer':
             username = user.username
-            designation = 'developer'
-            if designation == user.designation:
-                designation = True
+            designation = False
             tasks = Task.objects.filter(developer=username)
         else:
             tasks = Task.objects.all()
-            designation = False
-    else:
-        return redirect('login')
+            designation = True
     return render(request, 'view_task.html', {'tasks': tasks, 'designation': designation})
-     
 
 
+@login_required(login_url='login')
+def updatetask(request,id):
+    ls = Task.objects.get(id=id)
+    form = UpdateForm(request.POST or None, instance=ls)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('viewtask')
+    return render(request, "update_task.html",{'ls':ls,'form':form})
 
-def deletetask(request):
-    return render(request, 'view_task.html')
+
+@login_required(login_url='login')
+def deletetask(request,id):
+    ls = Task.objects.get(id=id)
+    ls.delete()
+    return redirect('viewtask')
 # ========== method-to-access-login-view ==========
 
 
