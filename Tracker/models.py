@@ -32,3 +32,12 @@ class Task(models.Model):
         max_length=30, choices=status_choice, default='Working on it')
     created_time = models.DateField(auto_now_add=True)
     deadline = models.DateField(blank=True,null=True)
+
+
+class contact(models.Model):
+    name = models.CharField(max_length=20)
+    email = models.EmailField()
+    message = models.TextField()
+
+    def __str__(self):
+        return self.name

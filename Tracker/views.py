@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
-from .forms import NewUser, TaskForm, UpdateForm
+from .forms import NewUser, TaskForm, UpdateForm, contactform
 from .models import new_user, Task 
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as user_login, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+
 
 
 def home(request):
@@ -13,10 +15,9 @@ def home(request):
 
 @login_required(login_url='login')
 def task(request):
-    developers = new_user.objects.all()
+    developers = new_user.objects.filter(designation='Developer')
     if request.user.is_authenticated:
         user = request.user
-        print(user.designation)
         if user.designation == 'Manager' or user.designation == 'Team lead':
             if request.method == 'POST':
                 form = TaskForm(request.POST)
@@ -25,6 +26,7 @@ def task(request):
                     task.unique_user = request.user
                     task.developer = request.POST.get('developer')
                     task.save()
+                    messages.info(request, 'Task Added Successfully')
                     return redirect('quest')
             else:
                 form = TaskForm()
@@ -42,11 +44,24 @@ def viewtask(request):
         if user.designation == 'Developer':
             username = user.username
             designation = False
+            devPage = False
             tasks = Task.objects.filter(developer=username)
         else:
             tasks = Task.objects.all()
             designation = True
-    return render(request, 'view_task.html', {'tasks': tasks, 'designation': designation})
+            devPage = True
+        if user.designation=='Team Lead':
+            devPage = False
+    return render(request, 'view_task.html', {'tasks': tasks, 'designation': designation,'devPage':devPage})
+
+
+@login_required(login_url='login')
+def viewdev(request):
+    if request.user.is_authenticated:
+        user = request.user
+        if user.designation == 'Manager':
+            devs = new_user.objects.exclude(designation='Manager')
+    return render(request, 'view_dev.html', {'devs': devs})
 
 
 @login_required(login_url='login')
@@ -65,6 +80,29 @@ def deletetask(request,id):
     ls = Task.objects.get(id=id)
     ls.delete()
     return redirect('viewtask')
+
+@login_required(login_url='login')
+def deletedev(request,id):
+    ls = new_user.objects.get(id=id)
+    ls.delete()
+    return redirect('viewdev')
+
+
+# ========== method-to-access-contact-view ==========
+
+def contact(response):
+    if response.method == 'POST':
+        form = contactform(response.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            form.save()
+            send_mail(name, message, email, ['rahulsquads@gmail.com'])
+            return redirect('home')
+    else:
+        form = contactform()
+    return render(response, 'contact.html', {'form': form})
 # ========== method-to-access-login-view ==========
 
 
@@ -98,7 +136,7 @@ def signup(request):
                 messages.info(request, 'Username taken')
             elif form.is_valid():
                 user = form.save()
-                return redirect('/')
+                return redirect('login')
             else:
                 messages.info(request, 'Password too short')
         else:

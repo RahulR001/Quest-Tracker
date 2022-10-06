@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Task,new_user
+from .models import Task, new_user, contact
 
 class dateinput(forms.DateInput):
     input_type = 'date'
@@ -33,5 +33,7 @@ class NewUser(UserCreationForm):
                   'designation', 'profile', 'email', 'password1', 'password2']
 
 
-
- 
+class contactform(forms.ModelForm):
+    class Meta:
+        model = contact
+        fields = '__all__'

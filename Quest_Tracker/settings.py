@@ -139,3 +139,7 @@ STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
 AUTH_USER_MODEL = 'Tracker.new_user'
 
 LOGOUT_REDIRECT_URL='/login'
+
+DEFAULT_FROM_EMAIL='rahul@gmail.com'
+
+EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'

@@ -1,20 +1,24 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 {% block title%}Quest{% endblock %}
 {% block questactive %}active{% endblock %}
 {% block content %}
 {% load widget_tweaks %}
 
-<div class="container scroll  px-5">
-<div class="container text-center">
-    <div class="row-md-6 mt-4">
-        <h1><label class="  txtcolor ">Welcome To Quest Tracker</label></h1>
-    </div>
-</div>
+
+
 
 <div class="tab mt-4 my-1">
     <a class="button-33 mb-4">Add Task</a>
     <a class="button-33 mb-4" href="/viewtask">View Task</a>
+    <a class="button-33 mb-4" href="/viewdev">Developers</a>
 </div>
+{% for msg in messages %}
+<div class="alert alert-dark  alert-dismissible fade show  " role="alert">
+    <strong>{{msg}}</strong>
+    <button type="button" class="btn-close   " data-bs-dismiss="alert" aria-label="Close">
+    </button>
+</div>
+{% endfor %}
 <form method="post">
     {% csrf_token %}
     <div class="container col-5 px-5">
@@ -54,7 +58,7 @@
 
 
 </form>
-</div>
+
 
 
 
