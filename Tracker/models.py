@@ -15,6 +15,8 @@ status_choice = (
 )
 
 
+# ========== class-to-alter-user-table ==========
+
 class new_user(AbstractUser):
     designation = models.CharField(
         max_length=30, choices=design_choice, default=False)
@@ -33,6 +35,8 @@ class Task(models.Model):
     created_time = models.DateField(auto_now_add=True)
     deadline = models.DateField(blank=True,null=True)
 
+
+# ========== class-to-generate-contact-table ==========
 
 class contact(models.Model):
     name = models.CharField(max_length=20)

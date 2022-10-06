@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import NewUser, TaskForm, UpdateForm, contactform
-from .models import new_user, Task 
+from .models import new_user, Task
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as user_login, authenticate
 from django.contrib import messages
@@ -8,10 +8,13 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 
 
+# ========== method-to-access-home-view ==========
 
 def home(request):
     return render(request, 'home.html')
 
+
+# ========== method-to-access-addtask-view ==========
 
 @login_required(login_url='login')
 def task(request):
@@ -34,8 +37,10 @@ def task(request):
             return redirect('viewtask')
     else:
         form = TaskForm()
-    return render(request, 'quest.html',{'form':form,'dev':developers})
+    return render(request, 'quest.html', {'form': form, 'dev': developers})
 
+
+# ========== method-to-access-viewtask-view ==========
 
 @login_required(login_url='login')
 def viewtask(request):
@@ -50,10 +55,12 @@ def viewtask(request):
             tasks = Task.objects.all()
             designation = True
             devPage = True
-        if user.designation=='Team Lead':
+        if user.designation == 'Team Lead':
             devPage = False
-    return render(request, 'view_task.html', {'tasks': tasks, 'designation': designation,'devPage':devPage})
+    return render(request, 'view_task.html', {'tasks': tasks, 'designation': designation, 'devPage': devPage})
 
+
+# ========== method-to-access-viewdevelopers-view ==========
 
 @login_required(login_url='login')
 def viewdev(request):
@@ -64,25 +71,32 @@ def viewdev(request):
     return render(request, 'view_dev.html', {'devs': devs})
 
 
+# ========== method-to-access-updatetask-view ==========
+
 @login_required(login_url='login')
-def updatetask(request,id):
+def updatetask(request, id):
     ls = Task.objects.get(id=id)
     form = UpdateForm(request.POST or None, instance=ls)
     if request.method == 'POST':
         if form.is_valid():
             form.save()
             return redirect('viewtask')
-    return render(request, "update_task.html",{'ls':ls,'form':form})
+    return render(request, "update_task.html", {'ls': ls, 'form': form})
 
+
+# ========== method-to-access-deletetask-view ==========
 
 @login_required(login_url='login')
-def deletetask(request,id):
+def deletetask(request, id):
     ls = Task.objects.get(id=id)
     ls.delete()
     return redirect('viewtask')
 
+
+# ========== method-to-access-deletedevelopers-view ==========
+
 @login_required(login_url='login')
-def deletedev(request,id):
+def deletedev(request, id):
     ls = new_user.objects.get(id=id)
     ls.delete()
     return redirect('viewdev')
@@ -103,8 +117,9 @@ def contact(response):
     else:
         form = contactform()
     return render(response, 'contact.html', {'form': form})
-# ========== method-to-access-login-view ==========
 
+
+# ========== method-to-access-login-view ==========
 
 def login(request):
     if request.method == 'POST':

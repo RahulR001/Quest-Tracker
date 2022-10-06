@@ -18,6 +18,10 @@ class TaskForm(forms.ModelForm):
             'taskDesc':forms.Textarea(attrs={'rows': 5, 'cols': 3}),
             
         }
+
+
+# ========== class-to-generate-update-from ==========
+
 class UpdateForm(forms.ModelForm):
     class Meta:
         model = Task 
@@ -32,6 +36,8 @@ class NewUser(UserCreationForm):
         fields = ['first_name', 'last_name', 'username',
                   'designation', 'profile', 'email', 'password1', 'password2']
 
+
+# ========== class-to-generate-contact-from ==========
 
 class contactform(forms.ModelForm):
     class Meta:

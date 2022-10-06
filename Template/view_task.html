@@ -1,4 +1,4 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 {% block title%}quest{% endblock %}
 {% block questactive %}active{% endblock %}
 {% block content%}
@@ -15,50 +15,54 @@
     <h1><label class=" my-4 txtcolor ">Tasks to be Completed</label></h1>
     {% endif %}
 </div>
+
 <form method="POST">
     {% csrf_token %}
-<div class="container scroll  px-5">
-    <table class="table1 table  table-striped table-dark ">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                {% if designation %}
-                <th scope="col">Developer</th>
-                {% endif %}
-                <th scope="col">Task</th>
-                <th scope="col">Task Description</th>
-                <th scope="col">Status</th>
-                <th scope="col">Assigned Date</th>
-                <th scope="col">Deadline</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
 
-        <tbody>
-            {% for task in tasks %}
-            <tr>
-                <th scope="row">{{ forloop.counter }}</th>
-                {% if designation %}
-                <td>{{ task.developer}}</td>
-                {% endif %}
-                <td>{{ task.tasktitle }}</td>
-                <td>{{ task.taskDesc }}</td>
-                <td>
-            {{ task.status}}
-                </td>
-                <td>{{ task.created_time}}</td>
-                <td>{{ task.deadline}}</td>
-                <td><a class="txtcolor btn btn-outline-primary" href="/update/{{task.id}}">Update</a>
+    <div class="container scroll  px-5">
+        <table class="table1 table  table-striped table-dark ">
+
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
                     {% if designation %}
-                    <a class="txtcolor btn btn-outline-danger" href="/delete/{{task.id}}">Delete</a>
+                    <th scope="col">Developer</th>
                     {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+                    <th scope="col">Task</th>
+                    <th scope="col">Task Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Assigned Date</th>
+                    <th scope="col">Deadline</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
 
-    </table>
-    </form>
-</div>
+            <tbody>
+                {% for task in tasks %}
+
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    {% if designation %}
+                    <td>{{ task.developer }}</td>
+                    {% endif %}
+                    <td>{{ task.tasktitle }}</td>
+                    <td>{{ task.taskDesc }}</td>
+                    <td>{{ task.status }}</td>
+                    <td>{{ task.created_time }}</td>
+                    <td>{{ task.deadline }}</td>
+                    <td><a class="txtcolor btn btn-outline-primary" href="/update/{{task.id}}">Update</a>
+                        {% if designation %}
+                        <a class="txtcolor btn btn-outline-danger" href="/delete/{{task.id}}">Delete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+</form>
 
 {% endblock %}
